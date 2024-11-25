@@ -1,0 +1,32 @@
+.BotPanel{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    background-color: #2B2E40;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.BotPanel_button {
+    background-color: #3c285f; /* Темный фон кнопки */
+    color: white; /* Белый текст */
+    border-radius: 15px; /* Закругленные края */
+    padding: 10px 20px; /* Внутренние отступы */
+    margin: 10px; /* Внешний отступ */
+    display: inline-flex; /* Для горизонтального выравнивания иконки и текста */
+    align-items: center; /* Вертикальное выравнивание */
+    font-size: 16px; /* Размер текста */
+    font-weight: bold; /* Жирный текст */
+    border: 2px solid #6d4f9d; /* Обводка кнопки */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Тень */
+    cursor: pointer; /* Указатель при наведении */
+    transition: background-color 0.3s, box-shadow 0.3s; /* Анимация изменений */
+}
+
+.BotPanel_button:hover {
+    background-color: #5e3b8e; /* Цвет кнопки при наведении */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Усиленная тень */
+}
