@@ -8,6 +8,7 @@
     position: fixed;
     bottom: 0;
     width: 100%;
+    z-index: 20;
 }
 
 .BotPanel_button {
@@ -29,4 +30,20 @@
 .BotPanel_button:hover {
     background-color: #5e3b8e; /* Цвет кнопки при наведении */
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Усиленная тень */
+}
+
+.BlacksmithPanel,
+.WizardShopPanel,
+.QuestPanel,
+.LeadersPanel{
+    position: fixed;
+    top: 60px; /* Отступ от хедера, если он есть */
+    left: 0;
+    right: 0;
+    bottom: 60px; /* Отступ от футера, если он есть */
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 20px;
+    z-index: 10; /* Чтобы панель была поверх других элементов */
+    overflow-y: auto; /* Если контент превышает экран, добавляется прокрутка */
 }
