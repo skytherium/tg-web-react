@@ -1,3 +1,10 @@
-.header{
+.header {
     z-index: 20;
+    background-color: #333; /* Добавлен цвет фона */
+    color: #fff; /* Цвет текста */
+    padding: 10px 20px; /* Внутренние отступы */
+    display: flex;
+    justify-content: space-between; /* Распределение элементов */
+    align-items: center; /* Вертикальное выравнивание */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Тень под хедером */
 }

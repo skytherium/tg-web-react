@@ -1,23 +1,27 @@
 .ClickPanel {
     display: flex;
-    justify-content: center; /* Центрирование по горизонтали */
-    align-items: center;     /* Центрирование по вертикали */
-    height: 100vh;           /* Высота панели на весь экран */
-    background-color: #f0f0f0; /* Фоновый цвет для панели */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    padding: 20px; /* Дополнительные отступы для небольших экранов */
 }
 
 .TapButton {
-    padding: 200px 200px;      /* Внутренние отступы для кнопки */
-    font-size: 24px;         /* Размер шрифта для кнопки */
-    background-color: #007bff; /* Цвет кнопки (синий) */
-    color: #ffffff;          /* Цвет текста кнопки (белый) */
-    border: none;            /* Убрать рамку */
-    border-radius: 10px;     /* Скругленные углы */
-    cursor: pointer;         /* Курсор указателя при наведении */
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); /* Тень для кнопки */
-    transition: transform 0.1s ease-in-out; /* Анимация при нажатии */
+    padding: 50px 100px; /* Уменьшил отступы для лучшей адаптации */
+    font-size: 24px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.1s ease-in-out;
+    text-align: center; /* Центрирование текста */
+    max-width: 300px; /* Ограничение ширины */
+    word-wrap: break-word; /* Перенос текста */
 }
 
 .TapButton:active {
-    transform: scale(0.95); /* Уменьшение кнопки при нажатии */
+    transform: scale(0.95);
 }

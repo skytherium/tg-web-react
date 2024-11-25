@@ -1,4 +1,4 @@
-.BotPanel{
+.BotPanel {
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -12,38 +12,41 @@
 }
 
 .BotPanel_button {
-    background-color: #3c285f; /* Темный фон кнопки */
-    color: white; /* Белый текст */
-    border-radius: 15px; /* Закругленные края */
-    padding: 10px 20px; /* Внутренние отступы */
-    margin: 10px; /* Внешний отступ */
-    display: inline-flex; /* Для горизонтального выравнивания иконки и текста */
-    align-items: center; /* Вертикальное выравнивание */
-    font-size: 16px; /* Размер текста */
-    font-weight: bold; /* Жирный текст */
-    border: 2px solid #6d4f9d; /* Обводка кнопки */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Тень */
-    cursor: pointer; /* Указатель при наведении */
-    transition: background-color 0.3s, box-shadow 0.3s; /* Анимация изменений */
+    background-color: #3c285f;
+    color: white;
+    border-radius: 15px;
+    padding: 10px 20px;
+    margin: 10px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+    border: 2px solid #6d4f9d;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    max-width: 200px; /* Ограничение ширины */
+    text-align: center;
 }
 
 .BotPanel_button:hover {
-    background-color: #5e3b8e; /* Цвет кнопки при наведении */
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Усиленная тень */
+    background-color: #5e3b8e;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
 .BlacksmithPanel,
 .WizardShopPanel,
 .QuestPanel,
-.LeadersPanel{
+.LeadersPanel {
     position: fixed;
-    top: 60px; /* Отступ от хедера, если он есть */
+    top: 60px;
     left: 0;
     right: 0;
-    bottom: 60px; /* Отступ от футера, если он есть */
+    bottom: 60px;
     background-color: rgba(0, 0, 0, 0.8);
     color: white;
     padding: 20px;
-    z-index: 10; /* Чтобы панель была поверх других элементов */
-    overflow-y: auto; /* Если контент превышает экран, добавляется прокрутка */
+    z-index: 10;
+    overflow-y: auto;
+    max-height: calc(100vh - 120px); /* Адаптивная высота */
 }
