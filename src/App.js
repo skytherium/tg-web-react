@@ -8,7 +8,7 @@ import BotPanel from "./BotPanel/BotPanel"
 const tg=window.Telegram.WebApp;
 
 function App() {
-    const {user,onClose}=useTelegram();
+    const {onClose}=useTelegram();
 
   useEffect(()=>{
     tg.ready();
