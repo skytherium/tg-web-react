@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './ClickPanel.css';
 import forest from './img/forest.jpg';
-import wizard from "../BotPanel/img/wizard.png";
 
 
 const ClickPanel = () => {
