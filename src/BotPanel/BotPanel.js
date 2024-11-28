@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './BotPanel.css';
+import wizard from './img/wizard.png';
 
 const BotPanel = () => {
     const [activePanel, setActivePanel] = useState(null);
@@ -14,7 +15,10 @@ const BotPanel = () => {
 
     return (
         <div className={'BotPanel'}>
-            <button className="BotPanel_button" onClick={() => handleButtonClick("Приключение")}>Приключение</button>
+            <button className="BotPanel_button" onClick={() => handleButtonClick("Приключение")}>
+                <span className="button-text">Приключение</span>
+                <img src={wizard} alt="Приключение" className="button-image" />
+            </button>
             <button className="BotPanel_button" onClick={() => handleButtonClick("Кузнец")}>Кузнец</button>
             <button className="BotPanel_button" onClick={() => handleButtonClick("Лавка")}>Лавка волшебника</button>
             <button className="BotPanel_button" onClick={() => handleButtonClick("Задание")}>Задание</button>

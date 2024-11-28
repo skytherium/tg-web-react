@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './ClickPanel.css';
+import forest from './img/forest.jpg';
+import wizard from "../BotPanel/img/wizard.png";
+
 
 const ClickPanel = () => {
     // Состояние для счётчика
@@ -45,6 +48,7 @@ const ClickPanel = () => {
 
     return (
         <div className="ClickPanel">
+            <img src={forest} className="backround-image" />
             <div>Счётчик: {count}</div>
             <div>Здоровье: {health}</div>
             <div>Энергия: {energy}</div>

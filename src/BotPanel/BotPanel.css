@@ -12,12 +12,13 @@
 }
 
 .BotPanel_button {
+    display: flex;
+    flex-direction: column;
     background-color: #3c285f;
     color: white;
     border-radius: 15px;
     padding: 10px 20px;
     margin: 10px;
-    display: inline-flex;
     align-items: center;
     font-size: 16px;
     font-weight: bold;
@@ -49,4 +50,15 @@
     z-index: 10;
     overflow-y: auto;
     max-height: calc(100vh - 120px); /* Адаптивная высота */
+}
+.button-image{
+    width: 25%;
+    height: auto;
+    background-color: transparent;
+}
+
+.button-text {
+    margin-bottom: 8px; /* отступ между текстом и изображением */
+    font-size: 16px; /* размер шрифта текста */
+    color: #000; /* цвет текста */
 }

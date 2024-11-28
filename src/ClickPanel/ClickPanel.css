@@ -1,10 +1,17 @@
 .ClickPanel {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-size: 50% 50%; /* Уменьшаем размер фона до 50% */
+    background-position: center center;
+    background-repeat: no-repeat;
     height: 100vh;
-    background-color: #f0f0f0;
-    padding: 20px; /* Дополнительные отступы для небольших экранов */
+    margin: 0;
+}
+.backround-image{
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Фон остаётся фиксированным при прокрутке */
+    height: 100vh;
+    margin: 0;
 }
 
 .TapButton {
