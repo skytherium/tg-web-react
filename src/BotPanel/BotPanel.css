@@ -1,40 +1,63 @@
+/* Основная панель с кнопками */
 .BotPanel {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    padding: 10px 0;
-    background-color: #2B2E40;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+    padding: 10px 20px;
+    background-color: #3d2b1f; /* Темный коричневый фон */
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.6);
     position: fixed;
     bottom: 0;
     width: 100%;
     z-index: 20;
+    border-top: 3px solid #d4af37; /* Золотая линия сверху */
+    font-size: 14px;
 }
 
+/* Кнопки на панели */
 .BotPanel_button {
     display: flex;
     flex-direction: column;
-    background-color: #3c285f;
-    color: white;
-    border-radius: 15px;
-    padding: 10px 20px;
-    margin: 10px;
+    background-color: #5c3a21; /* Темный цвет дерева */
+    color: #f4e1b7; /* Золотистый цвет текста */
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin: 8px;
     align-items: center;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
-    border: 2px solid #6d4f9d;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border: 2px solid #d4af37; /* Золотая рамка */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     cursor: pointer;
     transition: background-color 0.3s, box-shadow 0.3s;
-    max-width: 200px; /* Ограничение ширины */
     text-align: center;
+    background-size: cover;
+    max-width: 120px; /* Уменьшенная ширина кнопок */
 }
 
+/* Эффект при наведении на кнопки */
 .BotPanel_button:hover {
-    background-color: #5e3b8e;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    background-color: #7a4e28; /* Светлый коричневый для наведения */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    transform: scale(1.05); /* Легкое увеличение при наведении */
 }
 
+/* Изображение на кнопке */
+.button-image {
+    width: 22%;
+    height: auto;
+    margin-bottom: 6px;
+}
+
+/* Текст на кнопке */
+.button-text {
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #f4e1b7;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+/* Панели для Кузнеца и других разделов */
 .BlacksmithPanel,
 .WizardShopPanel,
 .QuestPanel,
@@ -44,21 +67,61 @@
     left: 0;
     right: 0;
     bottom: 60px;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.85); /* Черный полупрозрачный фон */
+    color: #f4e1b7;
+    padding: 15px;
     z-index: 10;
     overflow-y: auto;
     max-height: calc(100vh - 120px); /* Адаптивная высота */
-}
-.button-image{
-    width: 25%;
-    height: auto;
-    background-color: transparent;
+    border: 2px solid #d4af37; /* Золотая рамка */
+    border-radius: 6px; /* Округлые углы */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+    background-size: cover;
 }
 
-.button-text {
-    margin-bottom: 8px; /* отступ между текстом и изображением */
-    font-size: 16px; /* размер шрифта текста */
-    color: #000; /* цвет текста */
+/* Заголовки на панелях */
+.BlacksmithPanel h2,
+.WizardShopPanel h2,
+.QuestPanel h2,
+.LeadersPanel h2 {
+    font-size: 22px;
+    font-family:  sans-serif;
+    color: #d4af37; /* Золотой цвет заголовков */
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    margin-bottom: 15px;
+}
+
+/* Стили для кнопок в панелях */
+.BlacksmithPanel button,
+.WizardShopPanel button,
+.QuestPanel button,
+.LeadersPanel button {
+    background-color: #7a4e28; /* Светлый коричневый для кнопок */
+    color: #f4e1b7;
+    border: 2px solid #d4af37;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin: 8px;
+    width: 180px;
+    text-align: center;
+}
+
+/* Эффект при наведении на кнопки в панелях */
+.BlacksmithPanel button:hover,
+.WizardShopPanel button:hover,
+.QuestPanel button:hover,
+.LeadersPanel button:hover {
+    background-color: #d4af37; /* Золотой цвет */
+    transform: scale(1.05); /* Увеличение кнопки */
+}
+
+/* Тень для элементов */
+.BlacksmithPanel, .WizardShopPanel, .QuestPanel, .LeadersPanel,
+.BotPanel_button {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Тень для всех элементов */
 }
