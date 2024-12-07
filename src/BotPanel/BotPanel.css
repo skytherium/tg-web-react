@@ -1,17 +1,19 @@
 /* Основная панель с кнопками */
 .BotPanel {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
-    padding: 10px 20px;
+    padding: 10px 0;
     background-color: #3d2b1f; /* Темный коричневый фон */
     box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.6);
     position: fixed;
     bottom: 0;
     width: 100%;
+    height: 80px; /* Фиксированная высота панели */
     z-index: 20;
     border-top: 3px solid #d4af37; /* Золотая линия сверху */
     font-size: 14px;
+    box-sizing: border-box;
 }
 
 /* Кнопки на панели */
@@ -22,7 +24,7 @@
     color: #f4e1b7; /* Золотистый цвет текста */
     border-radius: 6px;
     padding: 8px 12px;
-    margin: 8px;
+    margin: 0 8px; /* Уменьшены отступы */
     align-items: center;
     font-size: 14px;
     font-weight: bold;
@@ -32,7 +34,8 @@
     transition: background-color 0.3s, box-shadow 0.3s;
     text-align: center;
     background-size: cover;
-    max-width: 120px; /* Уменьшенная ширина кнопок */
+    max-width: 90px; /* Уменьшена ширина кнопок */
+    height: 60px; /* Уменьшена высота кнопок */
 }
 
 /* Эффект при наведении на кнопки */
@@ -52,7 +55,7 @@
 /* Текст на кнопке */
 .button-text {
     margin-bottom: 6px;
-    font-size: 14px;
+    font-size: 12px; /* Уменьшен размер шрифта */
     color: #f4e1b7;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
 }
@@ -84,8 +87,8 @@
 .WizardShopPanel h2,
 .QuestPanel h2,
 .LeadersPanel h2 {
-    font-size: 22px;
-    font-family:  sans-serif;
+    font-size: 18px;
+    font-family: 'MedievalSharp', sans-serif;
     color: #d4af37; /* Золотой цвет заголовков */
     text-align: center;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
