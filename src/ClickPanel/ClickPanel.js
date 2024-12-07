@@ -1,59 +1,76 @@
 import React, { useState, useEffect } from 'react';
 import './ClickPanel.css';
-import forest from './img/forest.jpg';
-
+import forest from './img/forest.jpg'; // Фоновое изображение
+import monster from './img/monster.png'; // Изображение монстра
+import heartIcon from './img/health.png'; // Изображение сердца
 
 const ClickPanel = () => {
-    // Состояние для счётчика
-    const [count, setCount] = useState(0);
+    // Состояния
+    const [count, setCount] = useState(0); // Счётчик
+    const [health, setHealth] = useState(20); // Текущее здоровье
+    const [maxHealth, setMaxHealth] = useState(20); // Максимальное здоровье
+    const [energy, setEnergy] = useState(100); // Энергия
 
-    // Состояние для здоровья, начальное значение 10
-    const [health, setHealth] = useState(10);
-    // Состояние для максимального здоровья (которое будет увеличиваться в 2 раза)
-    const [maxHealth, setMaxHealth] = useState(10);
-
-    // Состояние для энергии, начальное значение 100
-    const [energy, setEnergy] = useState(100);
-
-    // Функция для увеличения счётчика и уменьшения здоровья
+    // Обработчик клика по монстру
     const handleClick = () => {
         if (energy > 0) {
-            // Если энергия больше 0, выполняем действия
             if (health > 0) {
-                setHealth(health - 1);  // Уменьшаем здоровье
+                setHealth(prevHealth => Math.max(prevHealth - 1, 0)); // Уменьшаем здоровье
             } else {
-                setMaxHealth(maxHealth * 2);  // Когда здоровье = 0, увеличиваем максимальное здоровье в 2 раза
-                setHealth(maxHealth * 2);     // Устанавливаем новое здоровье равным максимальному
+                setMaxHealth(prevMaxHealth => {
+                    const newMaxHealth = prevMaxHealth * 2; // Увеличиваем максимальное здоровье
+                    setHealth(newMaxHealth); // Полностью восстанавливаем здоровье
+                    return newMaxHealth;
+                });
             }
-            setEnergy(energy - 1);  // Каждый клик уменьшает энергию на 10
-            setCount(count + 1);  // Увеличиваем счётчик
+            setEnergy(energy - 1); // Уменьшаем энергию
+            setCount(count + 1); // Увеличиваем счётчик
         }
     };
 
-    // Таймер для увеличения энергии каждую минуту
+    // Таймер для восстановления энергии
     useEffect(() => {
         const energyTimer = setInterval(() => {
-            setEnergy(prevEnergy => {
-                if (prevEnergy < 100) {  // Максимум энергии = 100
-                    return prevEnergy + 1;
-                }
-                return prevEnergy;  // Энергия не увеличивается, если она уже на максимуме
-            });
-        }, 120000);  // 120000 миллисекунд = 2 минуты
+            setEnergy(prevEnergy => Math.min(prevEnergy + 1, 100)); // Восстанавливаем энергию до 100 максимум
+        }, 120000); // Каждые 2 минуты
 
-        // Очищаем таймер при размонтировании компонента
-        return () => clearInterval(energyTimer);
+        return () => clearInterval(energyTimer); // Очищаем таймер при размонтировании
     }, []);
+
+    // Расчёт ширины полоски здоровья
+    const healthPercentage = (health / maxHealth) * 100;
 
     return (
         <div className="ClickPanel">
-            <img src={forest} className="backround-image" />
-            <div>Счётчик: {count}</div>
-            <div>Здоровье: {health}</div>
-            <div>Энергия: {energy}</div>
-            <button className="TapButton" onClick={handleClick} disabled={energy <= 0}>
-                123
-            </button>
+            {/* Фоновое изображение */}
+            <img src={forest} className="background-image" alt="Background" />
+
+            {/* Полоска здоровья и сердечко */}
+            <div className="health-bar-container">
+                <img src={heartIcon} className="heart-icon" alt="Heart" />
+                <div className="health-bar">
+                    <div
+                        className="health-bar-fill"
+                        style={{ width: `${healthPercentage}%` }}
+                    />
+                    <span className="health-text">{health}/{maxHealth}</span>
+                </div>
+            </div>
+
+            {/* Монстр для кликов */}
+            <img
+                src={monster}
+                className="clickable-image"
+                alt="Monster"
+                onClick={handleClick}
+                style={{ cursor: energy > 0 ? 'pointer' : 'not-allowed' }}
+            />
+
+            {/* Панель информации */}
+            <div className="info">
+                <div>Счётчик: {count}</div>
+                <div>Энергия: {energy}</div>
+            </div>
         </div>
     );
 };
