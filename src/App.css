@@ -9,3 +9,18 @@
     height: 50vh; /* 50% от высоты экрана */
     font-size: 2vw; /* Шрифт изменяется в зависимости от ширины окна */
 }
+
+@media (max-width: 768px) {
+    body {
+        margin: 0;
+        font-size: 14px;
+    }
+    .button {
+        width: 100%;
+        padding: 10px;
+    }
+    .container {
+        flex-direction: column;
+        padding: 10px;
+    }
+}
