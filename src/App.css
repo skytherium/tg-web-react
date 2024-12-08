@@ -4,3 +4,24 @@
     box-sizing: border-box;
 }
 
+/* Стили для мобильных устройств */
+@media (max-width: 768px) {
+    .some-element {
+        font-size: 14px; /* Уменьшаем размер шрифта для маленьких экранов */
+    }
+}
+
+/* Стили для средних экранов (например, планшеты) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .some-element {
+        font-size: 16px;
+    }
+}
+
+/* Стили для больших экранов (например, ПК) */
+@media (min-width: 1025px) {
+    .some-element {
+        font-size: 18px;
+    }
+}
+
