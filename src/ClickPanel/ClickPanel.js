@@ -6,7 +6,7 @@ import heartIcon from './img/health.png'; // Изображение сердца
 import coin from './img/gold.png'; // Изображение монетки
 
 const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxEnergy, setEnergyRecoverySpeed, activePanel }) => {
-    const [count, setCount] = useState(0); // Счётчик кликов
+    const [count, setCount] = useState(0); // Счётчик кликов (монеты)
     const [health, setHealth] = useState(20); // Текущее здоровье
     const [maxHealth, setMaxHealth] = useState(20); // Максимальное здоровье
     const [energy, setEnergy] = useState(100); // Энергия
@@ -15,6 +15,15 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
     const [damageUpgradeCost, setDamageUpgradeCost] = useState(10); // Стоимость улучшения урона
     const [maxEnergyUpgradeCost, setMaxEnergyUpgradeCost] = useState(15); // Стоимость улучшения макс. энергии
     const [energyRecoverySpeedUpgradeCost, setEnergyRecoverySpeedUpgradeCost] = useState(20); // Стоимость улучшения восстановления энергии
+
+    const [questProgress, setQuestProgress] = useState({
+        level: 0,
+        coinCount: 0,
+        targetCoins: 100,
+    });
+    const [questReward, setQuestReward] = useState(null); // Награда за выполнение задания
+    const [rewardAmount, setRewardAmount] = useState(100); // Начальная награда
+    const [showRewardMessage, setShowRewardMessage] = useState(false); // Для отображения поздравления
 
     const handleClick = () => {
         if (energy > 0) {
@@ -32,9 +41,14 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
             }
             setEnergy(prevEnergy => Math.max(prevEnergy - 1, 0)); // Уменьшаем энергию
             setCount(count + damage); // Увеличиваем счётчик кликов
+
+            // Обновляем прогресс задания
+            setQuestProgress(prevProgress => ({
+                ...prevProgress,
+                coinCount: prevProgress.coinCount + damage,
+            }));
         }
     };
-
 
     useEffect(() => {
         const energyTimer = setInterval(() => {
@@ -43,6 +57,35 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
 
         return () => clearInterval(energyTimer);
     }, [maxEnergy, energyRecoverySpeed]);
+
+    useEffect(() => {
+        // Проверка на выполнение задания
+        if (lvl >= 5) {
+            setQuestReward('Задание выполнено: Уровень 5 достигнут!');
+        }
+
+        // Если собрали достаточно монет, обновляем задание
+        if (questProgress.coinCount >= questProgress.targetCoins) {
+            setQuestReward(`Поздравляем! Вы собрали ${questProgress.targetCoins} монет и получаете ${rewardAmount} монет в качестве награды!`);
+            setCount(prevCount => prevCount + rewardAmount); // Добавляем монеты за выполнение задания
+            setShowRewardMessage(true); // Показываем сообщение
+
+            // Удваиваем количество монет, которое нужно собрать для следующего задания
+            setQuestProgress(prevProgress => ({
+                ...prevProgress,
+                coinCount: 0, // Обнуляем прогресс по монетам
+                targetCoins: prevProgress.targetCoins * 2, // Увеличиваем цель в 2 раза
+            }));
+
+            // Удваиваем награду для следующего задания
+            setRewardAmount(prevReward => prevReward * 2);
+
+            // Таймер для скрытия сообщения через 2 секунды
+            setTimeout(() => {
+                setShowRewardMessage(false);
+            }, 2000);
+        }
+    }, [lvl, questProgress, rewardAmount]);
 
     const healthPercentage = (health / maxHealth) * 100;
 
@@ -85,7 +128,6 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
                 </div>
             </div>
 
-
             <div className="health-bar-container">
                 <img src={heartIcon} className="heart-icon" alt="Heart" />
                 <div className="health-bar">
@@ -109,7 +151,6 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
                 style={{ cursor: energy > 0 ? 'pointer' : 'not-allowed' }}
             />
 
-
             {activePanel === "Кузнец" && (
                 <div className="BlacksmithPanel">
                     <h2>Панель Кузнеца</h2>
@@ -125,6 +166,21 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
                         <p>Скорость восстановления энергии: {energyRecoverySpeed / 1000} сек</p>
                         <button onClick={handleEnergyRecoverySpeedUpgrade}>Ускорить восстановление энергии ({energyRecoverySpeedUpgradeCost} кликов)</button>
                     </div>
+                </div>
+            )}
+
+            {activePanel === "Задание" && (
+                <div className="QuestPanel">
+                    <h2>Задания</h2>
+                    <div>
+                        <p>Прогресс: {questProgress.coinCount} / {questProgress.targetCoins} монет</p>
+                    </div>
+                </div>
+            )}
+
+            {showRewardMessage && (
+                <div className="reward-message">
+                    <p>Поздравляем! Вы собрали {questProgress.targetCoins} монет и получаете {rewardAmount} монет в качестве награды!</p>
                 </div>
             )}
         </div>

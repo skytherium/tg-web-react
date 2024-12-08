@@ -128,3 +128,30 @@
 .BotPanel_button {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
+
+.reward-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #d4af37;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    z-index: 30;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+    animation: fadeIn 2s ease-out;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
