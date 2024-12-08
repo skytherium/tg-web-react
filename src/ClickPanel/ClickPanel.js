@@ -3,12 +3,14 @@ import './ClickPanel.css';
 import forest from './img/forest.jpg'; // Фоновое изображение
 import monster from './img/monster.png'; // Изображение монстра
 import heartIcon from './img/health.png'; // Изображение сердца
+import coin from './img/gold.png'; // Изображение монетки
 
 const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxEnergy, setEnergyRecoverySpeed, activePanel }) => {
     const [count, setCount] = useState(0); // Счётчик кликов
     const [health, setHealth] = useState(20); // Текущее здоровье
     const [maxHealth, setMaxHealth] = useState(20); // Максимальное здоровье
     const [energy, setEnergy] = useState(100); // Энергия
+    const [lvl, setLvl] = useState(0); // Уровень
 
     const [damageUpgradeCost, setDamageUpgradeCost] = useState(10); // Стоимость улучшения урона
     const [maxEnergyUpgradeCost, setMaxEnergyUpgradeCost] = useState(15); // Стоимость улучшения макс. энергии
@@ -24,11 +26,15 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
                     setHealth(newMaxHealth); // Полностью восстанавливаем здоровье
                     return newMaxHealth;
                 });
+
+                // Увеличиваем lvl только один раз, когда здоровье восстанавливается
+                setLvl(prevLvl => prevLvl + 1);
             }
             setEnergy(prevEnergy => Math.max(prevEnergy - 1, 0)); // Уменьшаем энергию
             setCount(count + damage); // Увеличиваем счётчик кликов
         }
     };
+
 
     useEffect(() => {
         const energyTimer = setInterval(() => {
@@ -68,11 +74,29 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
     return (
         <div className="ClickPanel">
             <img src={forest} className="background-image" alt="Background" />
+
+            <div className="coin-panel">
+                <img src={coin} className="coin-icon" alt="Coin" />
+                <div className="coin-count">Монеты: {count}</div>
+            </div>
+
+            {/* Новый элемент для отображения уровня */}
+            <div className="level-panel">
+                <div className="lvl-text">Уровень: {lvl}</div>
+            </div>
+
             <div className="health-bar-container">
                 <img src={heartIcon} className="heart-icon" alt="Heart" />
                 <div className="health-bar">
                     <div className="health-bar-fill" style={{ width: `${healthPercentage}%` }} />
                     <span className="health-text">{health}/{maxHealth}</span>
+                </div>
+            </div>
+
+            <div className="energy-sword-container">
+                <div className="energy-sword">
+                    <div className="energy-sword-fill" style={{ width: `${(energy / maxEnergy) * 100}%` }} />
+                    <span className="energy-text">{energy}/{maxEnergy}</span>
                 </div>
             </div>
 
@@ -84,11 +108,6 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
                 style={{ cursor: energy > 0 ? 'pointer' : 'not-allowed' }}
             />
 
-            <div className="info">
-                <div>Счётчик: {count}</div>
-                <div>Энергия: {energy}/{maxEnergy}</div>
-                <div>Урон за клик: {damage}</div>
-            </div>
 
             {activePanel === "Кузнец" && (
                 <div className="BlacksmithPanel">
@@ -110,7 +129,5 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
         </div>
     );
 };
-
-
 
 export default ClickPanel;

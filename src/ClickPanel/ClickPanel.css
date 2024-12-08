@@ -20,8 +20,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%); /* Центрирование монстра */
-    width: 150px;
-    height: 150px;
+    width: 500px; /* Увеличиваем ширину */
+    height: 500px; /* Увеличиваем высоту */
     z-index: 2; /* Монстр поверх фона */
     cursor: pointer;
     transition: transform 0.1s ease-in-out;
@@ -34,7 +34,7 @@
 /* Полоска здоровья */
 .health-bar-container {
     position: absolute;
-    top: 35%; /* Полоска чуть выше монстра */
+    top: 10%; /* Полоска чуть выше монстра */
     left: 50%;
     transform: translateX(-50%); /* Центрируем полоску */
     display: flex;
@@ -72,15 +72,110 @@
     color: white;
 }
 
-/* Панель информации */
-.info {
+
+/* Улучшенная полоска энергии */
+.energy-sword-container {
     position: absolute;
-    top: 10px;
+    top: 10px; /* Расположение сверху */
+    left: 50%;
+    transform: translateX(-50%); /* Центрирование по горизонтали */
+    width: 300px; /* Общая ширина меча */
+    height: 30px; /* Высота меча */
+    display: flex;
+    align-items: center;
+    z-index: 3;
+}
+
+.energy-sword {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #444, #222); /* Градиент фона рукояти */
+    border-radius: 15px; /* Скругление краёв */
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Тень для эффекта глубины */
+}
+
+.energy-sword::before {
+    content: '';
+    position: absolute;
+    left: -20px; /* Расположение рукояти */
+    width: 20px;
+    height: 30px;
+    background: linear-gradient(135deg, #333, #555); /* Градиент рукояти */
+    border-radius: 15px 0 0 15px; /* Скругление краёв рукояти */
+}
+
+.energy-sword::after {
+    content: '';
+    position: absolute;
+    right: -10px; /* Расположение острия */
+    width: 10px;
+    height: 30px;
+    background: linear-gradient(135deg, #777, #999); /* Градиент острия */
+    clip-path: polygon(0 0, 100% 50%, 0 100%); /* Форма треугольника */
+}
+
+.energy-sword-fill {
+    height: 100%;
+    background: linear-gradient(135deg, #00f, #00c2ff); /* Градиент заполнения полоски */
+    transition: width 0.3s ease-in-out; /* Анимация заполнения */
+    border-radius: 15px 0 0 15px; /* Скругление краёв заполненной полоски */
+    box-shadow: inset 0 0 15px rgba(0, 0, 255, 0.7); /* Внутренняя тень */
+}
+
+.energy-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 14px;
+    color: white;
+    font-weight: bold;
+    pointer-events: none; /* Текст нельзя выделить */
+}
+
+.coin-panel {
+    position: absolute;
+    top: 10%;
     left: 10px;
     z-index: 3;
-    color: white;
+    display: flex;
+    align-items: center;
     background: rgba(0, 0, 0, 0.5);
     padding: 10px;
     border-radius: 5px;
-    font-family: Arial, sans-serif;
 }
+
+.coin-icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.coin-count {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Новый стиль для панели уровня */
+.level-panel {
+    position: absolute;
+    top: 15%;  /* Расположим панель ниже монет */
+    left: 10px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.7); /* Немного темнее, чем панель с монетами */
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.lvl-text {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* Легкая тень для текста */
+}
+
