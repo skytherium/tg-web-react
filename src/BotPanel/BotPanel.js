@@ -6,13 +6,13 @@ const BotPanel = ({ upgradeDamage, upgradeMaxEnergy, upgradeEnergyRecoverySpeed,
     return (
         <div className={'BotPanel'}>
             <button className="BotPanel_button" onClick={() => handlePanelChange("Приключение")}>
-                <span className="button-text">Приключение</span>
+                <span className="button-text">Монстры</span>
                 <img src={wizard} alt="Приключение" className="button-image" />
             </button>
             <button className="BotPanel_button" onClick={() => handlePanelChange("Кузнец")}>Кузнец</button>
-            <button className="BotPanel_button" onClick={() => handlePanelChange("Лавка")}>Лавка волшебника</button>
-            <button className="BotPanel_button" onClick={() => handlePanelChange("Задание")}>Задание</button>
-            <button className="BotPanel_button" onClick={() => handlePanelChange("Лидеры")}>Лидеры</button>
+            <button className="BotPanel_button" onClick={() => handlePanelChange("Лавка")}>Волшебник</button>
+            <button className="BotPanel_button" onClick={() => handlePanelChange("Задание")}>Квест</button>
+            <button className="BotPanel_button" onClick={() => handlePanelChange("Лидеры")}>TOP</button>
         </div>
     );
 };
