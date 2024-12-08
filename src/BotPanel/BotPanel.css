@@ -3,16 +3,16 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    padding: 10px 0;
-    background-color: #3d2b1f; /* Темный коричневый фон */
+    padding: 5px 0; /* Уменьшены отступы */
+    background-color: #3d2b1f;
     box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.6);
     position: fixed;
     bottom: 0;
     width: 100%;
-    height: 80px; /* Фиксированная высота панели */
+    height: 60px; /* Уменьшена высота панели */
     z-index: 20;
-    border-top: 3px solid #d4af37; /* Золотая линия сверху */
-    font-size: 14px;
+    border-top: 3px solid #d4af37;
+    font-size: 12px; /* Уменьшен размер шрифта */
     box-sizing: border-box;
 }
 
@@ -20,42 +20,42 @@
 .BotPanel_button {
     display: flex;
     flex-direction: column;
-    background-color: #5c3a21; /* Темный цвет дерева */
-    color: #f4e1b7; /* Золотистый цвет текста */
+    background-color: #5c3a21;
+    color: #f4e1b7;
     border-radius: 6px;
-    padding: 8px 12px;
-    margin: 0 8px; /* Уменьшены отступы */
+    padding: 6px 10px; /* Уменьшены отступы */
+    margin: 0 6px; /* Уменьшены отступы */
     align-items: center;
-    font-size: 14px;
+    font-size: 12px; /* Уменьшен размер шрифта */
     font-weight: bold;
-    border: 2px solid #d4af37; /* Золотая рамка */
+    border: 2px solid #d4af37;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     cursor: pointer;
     transition: background-color 0.3s, box-shadow 0.3s;
     text-align: center;
     background-size: cover;
-    max-width: 90px; /* Уменьшена ширина кнопок */
-    height: 60px; /* Уменьшена высота кнопок */
+    max-width: 80px; /* Уменьшена ширина кнопок */
+    height: 50px; /* Уменьшена высота кнопок */
 }
 
 /* Эффект при наведении на кнопки */
 .BotPanel_button:hover {
-    background-color: #7a4e28; /* Светлый коричневый для наведения */
+    background-color: #7a4e28;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
-    transform: scale(1.05); /* Легкое увеличение при наведении */
+    transform: scale(1.05);
 }
 
 /* Изображение на кнопке */
 .button-image {
-    width: 22%;
+    width: 18%; /* Уменьшен размер изображения */
     height: auto;
-    margin-bottom: 6px;
+    margin-bottom: 4px; /* Уменьшено расстояние */
 }
 
 /* Текст на кнопке */
 .button-text {
-    margin-bottom: 6px;
-    font-size: 12px; /* Уменьшен размер шрифта */
+    margin-bottom: 4px; /* Уменьшено расстояние */
+    font-size: 10px; /* Уменьшен размер шрифта */
     color: #f4e1b7;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
 }
@@ -66,18 +66,18 @@
 .QuestPanel,
 .LeadersPanel {
     position: fixed;
-    top: 60px;
+    top: 50px;
     left: 0;
     right: 0;
-    bottom: 60px;
-    background-color: rgba(0, 0, 0, 0.85); /* Черный полупрозрачный фон */
+    bottom: 50px; /* Уменьшена высота панелей */
+    background-color: rgba(0, 0, 0, 0.85);
     color: #f4e1b7;
-    padding: 15px;
+    padding: 10px;
     z-index: 10;
     overflow-y: auto;
-    max-height: calc(100vh - 120px); /* Адаптивная высота */
-    border: 2px solid #d4af37; /* Золотая рамка */
-    border-radius: 6px; /* Округлые углы */
+    max-height: calc(100vh - 100px); /* Адаптивная высота */
+    border: 2px solid #d4af37;
+    border-radius: 6px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
     background-size: cover;
 }
@@ -87,12 +87,12 @@
 .WizardShopPanel h2,
 .QuestPanel h2,
 .LeadersPanel h2 {
-    font-size: 18px;
+    font-size: 16px; /* Уменьшение размера заголовков */
     font-family: 'MedievalSharp', sans-serif;
-    color: #d4af37; /* Золотой цвет заголовков */
+    color: #d4af37;
     text-align: center;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-    margin-bottom: 15px;
+    margin-bottom: 10px; /* Уменьшено расстояние */
 }
 
 /* Стили для кнопок в панелях */
@@ -100,17 +100,17 @@
 .WizardShopPanel button,
 .QuestPanel button,
 .LeadersPanel button {
-    background-color: #7a4e28; /* Светлый коричневый для кнопок */
+    background-color: #7a4e28;
     color: #f4e1b7;
     border: 2px solid #d4af37;
-    padding: 8px 16px;
+    padding: 6px 12px; /* Уменьшены отступы */
     border-radius: 5px;
-    font-size: 14px;
+    font-size: 12px; /* Уменьшены размеры шрифта */
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
-    margin: 8px;
-    width: 180px;
+    margin: 6px;
+    width: 160px; /* Уменьшена ширина кнопок */
     text-align: center;
 }
 
@@ -119,12 +119,12 @@
 .WizardShopPanel button:hover,
 .QuestPanel button:hover,
 .LeadersPanel button:hover {
-    background-color: #d4af37; /* Золотой цвет */
-    transform: scale(1.05); /* Увеличение кнопки */
+    background-color: #d4af37;
+    transform: scale(1.05);
 }
 
 /* Тень для элементов */
 .BlacksmithPanel, .WizardShopPanel, .QuestPanel, .LeadersPanel,
 .BotPanel_button {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Тень для всех элементов */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
