@@ -20,8 +20,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%); /* Центрирование монстра */
-    width: 500px; /* Увеличиваем ширину */
-    height: 500px; /* Увеличиваем высоту */
+    width: 300px; /* Увеличиваем ширину */
+    height: 300px; /* Увеличиваем высоту */
     z-index: 2; /* Монстр поверх фона */
     cursor: pointer;
     transition: transform 0.1s ease-in-out;
@@ -34,7 +34,7 @@
 /* Полоска здоровья */
 .health-bar-container {
     position: absolute;
-    top: 10%; /* Полоска чуть выше монстра */
+    top: 26%; /* Полоска чуть выше монстра */
     left: 50%;
     transform: translateX(-50%); /* Центрируем полоску */
     display: flex;
@@ -135,16 +135,27 @@
     pointer-events: none; /* Текст нельзя выделить */
 }
 
-.coin-panel {
-    position: absolute;
-    top: 10%;
-    left: 10px;
+.info-player {
+    display: flex;
+    flex-direction: column; /* Вертикальное выравнивание элементов */
+    align-items: flex-start; /* Выравнивание по левому краю */
+    background: rgba(0, 0, 0, 0.7);
+    padding: 15px;
+    border-radius: 5px;
     z-index: 3;
+    position: absolute;
+    top: 10%; /* Позиция для панели */
+    left: 10px;
+    gap: 10px; /* Добавим промежутки между панелями */
+}
+
+.coin-panel, .level-panel {
     display: flex;
     align-items: center;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 10px;
+    width: 100%; /* Расширяем блоки на всю ширину контейнера */
+    padding: 5px;
     border-radius: 5px;
+    background: rgba(0, 0, 0, 0.5); /* Фон для каждого элемента */
 }
 
 .coin-icon {
@@ -159,23 +170,12 @@
     font-weight: bold;
 }
 
-/* Новый стиль для панели уровня */
-.level-panel {
-    position: absolute;
-    top: 15%;  /* Расположим панель ниже монет */
-    left: 10px;
-    z-index: 3;
-    display: flex;
-    align-items: center;
-    background: rgba(0, 0, 0, 0.7); /* Немного темнее, чем панель с монетами */
-    padding: 10px;
-    border-radius: 5px;
-}
-
 .lvl-text {
     color: white;
     font-size: 18px;
     font-weight: bold;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* Легкая тень для текста */
 }
+
+
 

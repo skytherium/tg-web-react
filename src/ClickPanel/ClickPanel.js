@@ -74,16 +74,17 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
     return (
         <div className="ClickPanel">
             <img src={forest} className="background-image" alt="Background" />
+            <div className="info-player">
+                <div className="coin-panel">
+                    <img src={coin} className="coin-icon" alt="Coin" />
+                    <div className="coin-count">Монеты: {count}</div>
+                </div>
 
-            <div className="coin-panel">
-                <img src={coin} className="coin-icon" alt="Coin" />
-                <div className="coin-count">Монеты: {count}</div>
+                <div className="level-panel">
+                    <div className="lvl-text">Уровень: {lvl}</div>
+                </div>
             </div>
 
-            {/* Новый элемент для отображения уровня */}
-            <div className="level-panel">
-                <div className="lvl-text">Уровень: {lvl}</div>
-            </div>
 
             <div className="health-bar-container">
                 <img src={heartIcon} className="heart-icon" alt="Heart" />
