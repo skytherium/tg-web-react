@@ -17,7 +17,7 @@
 
 .clickable-image {
     position: absolute;
-    top: 50%;
+    top: 60%;
     left: 50%;
     transform: translate(-50%, -50%); /* Центрирование монстра */
     width: 300px; /* Увеличиваем ширину */
@@ -34,7 +34,7 @@
 /* Полоска здоровья */
 .health-bar-container {
     position: absolute;
-    top: 26%; /* Полоска чуть выше монстра */
+    top: 35%; /* Полоска чуть выше монстра */
     left: 50%;
     transform: translateX(-50%); /* Центрируем полоску */
     display: flex;
