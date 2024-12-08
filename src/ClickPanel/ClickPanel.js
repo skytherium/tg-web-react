@@ -21,6 +21,11 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
         coinCount: 0,
         targetCoins: 100, // Начальная цель монет
     });
+    const [levelQuestProgress, setLevelQuestProgress] = useState({
+        currentLevel: 5, // Текущий целевой уровень
+        reward: 50, // Начальная награда за уровень
+    });
+
     const [questReward, setQuestReward] = useState(null); // Награда за выполнение задания
     const [rewardAmount, setRewardAmount] = useState(100); // Начальная награда
     const [showRewardMessage, setShowRewardMessage] = useState(false); // Для отображения поздравления
@@ -67,15 +72,8 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
         // Если собрали достаточно монет, обновляем задание
         if (questProgress.coinCount >= questProgress.targetCoins) {
             setQuestReward(`Поздравляем! Вы собрали ${questProgress.targetCoins} монет и получаете ${rewardAmount} монет в качестве награды!`);
-            setShowRewardMessage(true); // Показываем сообщение
-
-            // Таймер для скрытия сообщения через 2 секунды
-            setTimeout(() => {
-                setShowRewardMessage(false);
-            }, 2000);
-
-            // Обновляем монеты после показа сообщения
             setCount(prevCount => prevCount + rewardAmount); // Добавляем монеты за выполнение задания
+            setShowRewardMessage(true); // Показываем сообщение
 
             // Удваиваем количество монет, которое нужно собрать для следующего задания
             setQuestProgress(prevProgress => ({
@@ -86,8 +84,52 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
 
             // Удваиваем награду для следующего задания
             setRewardAmount(prevReward => prevReward * 2);
+
+            // Таймер для скрытия сообщения через 2 секунды
+            setTimeout(() => {
+                setShowRewardMessage(false);
+            }, 2000);
         }
     }, [lvl, questProgress, rewardAmount]);
+    useEffect(() => {
+        // Проверка задания по уровню
+        if (lvl >= levelQuestProgress.currentLevel) {
+            setQuestReward(`Поздравляем! Вы достигли уровня ${levelQuestProgress.currentLevel} и получаете ${levelQuestProgress.reward} монет!`);
+            setCount(prevCount => prevCount + levelQuestProgress.reward); // Добавляем монеты за выполнение задания
+            setShowRewardMessage(true); // Показываем сообщение
+
+            // Увеличиваем целевой уровень и награду
+            setLevelQuestProgress(prevProgress => ({
+                currentLevel: prevProgress.currentLevel + 5, // Следующий целевой уровень (увеличивается на 5)
+                reward: prevProgress.reward * 2, // Удваиваем награду
+            }));
+
+            // Таймер для скрытия сообщения
+            setTimeout(() => {
+                setShowRewardMessage(false);
+            }, 2000);
+        }
+
+        // Проверка задания по монетам
+        if (questProgress.coinCount >= questProgress.targetCoins) {
+            setQuestReward(`Поздравляем! Вы собрали ${questProgress.targetCoins} монет и получаете ${rewardAmount} монет в качестве награды!`);
+            setCount(prevCount => prevCount + rewardAmount); // Добавляем монеты за выполнение задания
+            setShowRewardMessage(true); // Показываем сообщение
+
+            // Увеличиваем цель и награду
+            setQuestProgress(prevProgress => ({
+                ...prevProgress,
+                coinCount: 0, // Обнуляем прогресс по монетам
+                targetCoins: prevProgress.targetCoins * 2, // Увеличиваем цель в 2 раза
+            }));
+            setRewardAmount(prevReward => prevReward * 2);
+
+            // Таймер для скрытия сообщения
+            setTimeout(() => {
+                setShowRewardMessage(false);
+            }, 2000);
+        }
+    }, [lvl, questProgress, levelQuestProgress, rewardAmount]);
 
     const healthPercentage = (health / maxHealth) * 100;
 
@@ -175,7 +217,10 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
                 <div className="QuestPanel">
                     <h2>Задания</h2>
                     <div>
-                        <p>Прогресс: {questProgress.coinCount} / {questProgress.targetCoins} монет</p>
+                        <p>Прогресс монет: {questProgress.coinCount} / {questProgress.targetCoins}</p>
+                    </div>
+                    <div>
+                        <p>Прогресс уровня: {lvl} / {levelQuestProgress.currentLevel}</p>
                     </div>
                 </div>
             )}
@@ -184,7 +229,14 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
                 <div className="reward-message">
                     <p>Поздравляем! Вы собрали {questProgress.targetCoins} монет и получаете {rewardAmount} монет в качестве награды!</p>
                 </div>
+
             )}
+            {showRewardMessage && (
+                <div className="reward-message">
+                    {questReward && <p>{questReward}</p>}
+                </div>
+            )}
+
         </div>
     );
 };
