@@ -19,7 +19,7 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
     const [questProgress, setQuestProgress] = useState({
         level: 0,
         coinCount: 0,
-        targetCoins: 100,
+        targetCoins: 100, // Начальная цель монет
     });
     const [questReward, setQuestReward] = useState(null); // Награда за выполнение задания
     const [rewardAmount, setRewardAmount] = useState(100); // Начальная награда
@@ -67,8 +67,15 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
         // Если собрали достаточно монет, обновляем задание
         if (questProgress.coinCount >= questProgress.targetCoins) {
             setQuestReward(`Поздравляем! Вы собрали ${questProgress.targetCoins} монет и получаете ${rewardAmount} монет в качестве награды!`);
-            setCount(prevCount => prevCount + rewardAmount); // Добавляем монеты за выполнение задания
             setShowRewardMessage(true); // Показываем сообщение
+
+            // Таймер для скрытия сообщения через 2 секунды
+            setTimeout(() => {
+                setShowRewardMessage(false);
+            }, 2000);
+
+            // Обновляем монеты после показа сообщения
+            setCount(prevCount => prevCount + rewardAmount); // Добавляем монеты за выполнение задания
 
             // Удваиваем количество монет, которое нужно собрать для следующего задания
             setQuestProgress(prevProgress => ({
@@ -79,11 +86,6 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
 
             // Удваиваем награду для следующего задания
             setRewardAmount(prevReward => prevReward * 2);
-
-            // Таймер для скрытия сообщения через 2 секунды
-            setTimeout(() => {
-                setShowRewardMessage(false);
-            }, 2000);
         }
     }, [lvl, questProgress, rewardAmount]);
 
