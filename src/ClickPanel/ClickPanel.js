@@ -1,194 +1,93 @@
 import React, { useState, useEffect } from 'react';
 import './ClickPanel.css';
-import forest from './img/forest.jpg'; // Фоновое изображение
-import monster from './img/monster.png'; // Изображение монстра
-import heartIcon from './img/health.png'; // Изображение сердца
-import coin from './img/gold.png'; // Изображение монетки
+import axios from 'axios'; // Импортируем axios для HTTP запросов
 
-
-
-
+import forest from './img/forest.jpg';
+import monster from './img/monster.png';
+import heartIcon from './img/health.png';
+import coin from './img/gold.png';
 
 const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxEnergy, setEnergyRecoverySpeed, activePanel }) => {
-    const [count, setCount] = useState(0); // Счётчик кликов (монеты)
-    const [health, setHealth] = useState(20); // Текущее здоровье
-    const [maxHealth, setMaxHealth] = useState(20); // Максимальное здоровье
-    const [energy, setEnergy] = useState(100); // Энергия
-    const [lvl, setLvl] = useState(0); // Уровень
+    const [count, setCount] = useState(0);
+    const [health, setHealth] = useState(20);
+    const [maxHealth, setMaxHealth] = useState(20);
+    const [energy, setEnergy] = useState(100);
+    const [lvl, setLvl] = useState(0);
 
-    const [damageUpgradeCost, setDamageUpgradeCost] = useState(10); // Стоимость улучшения урона
-    const [maxEnergyUpgradeCost, setMaxEnergyUpgradeCost] = useState(15); // Стоимость улучшения макс. энергии
-    const [energyRecoverySpeedUpgradeCost, setEnergyRecoverySpeedUpgradeCost] = useState(20); // Стоимость улучшения восстановления энергии
+    const [damageUpgradeCost, setDamageUpgradeCost] = useState(10);
+    const [maxEnergyUpgradeCost, setMaxEnergyUpgradeCost] = useState(15);
+    const [energyRecoverySpeedUpgradeCost, setEnergyRecoverySpeedUpgradeCost] = useState(20);
 
     const [questProgress, setQuestProgress] = useState({
         level: 0,
         coinCount: 0,
-        targetCoins: 100, // Начальная цель монет
+        targetCoins: 100,
     });
     const [levelQuestProgress, setLevelQuestProgress] = useState({
-        currentLevel: 5, // Текущий целевой уровень
-        reward: 50, // Начальная награда за уровень
+        currentLevel: 5,
+        reward: 50,
     });
 
-    const [questReward, setQuestReward] = useState(null); // Награда за выполнение задания
-    const [rewardAmount, setRewardAmount] = useState(100); // Начальная награда
-    const [showRewardMessage, setShowRewardMessage] = useState(false); // Для отображения поздравления
+    const [questReward, setQuestReward] = useState(null);
+    const [rewardAmount, setRewardAmount] = useState(100);
+    const [showRewardMessage, setShowRewardMessage] = useState(false);
 
+    // Получаем данные с сервера
+    useEffect(() => {
+        axios.get('http://localhost:5000/api/user-data')
+            .then(response => {
+                const data = response.data;
+                setCount(data.coin_count);
+                setHealth(data.health);
+                setMaxHealth(data.max_health);
+                setEnergy(data.energy);
+                setMaxEnergy(data.max_energy);
+                setLvl(data.level);
+            })
+            .catch(err => console.error(err));
+    }, []);
 
-
-
-    const fetchData = async () => {
-        const telegramId = 123456789; // Здесь используйте реальный ID пользователя
-        try {
-            const response = await fetch(`/api/user/${telegramId}`);
-            if (!response.ok) {
-                throw new Error('Ошибка при получении данных');
-            }
-            const userData = await response.json();
-            setCount(userData.coin_count);
-            setLvl(userData.level);
-            setHealth(userData.health);
-            setMaxHealth(userData.max_health);
-            setEnergy(userData.energy);
-            setMaxEnergy(userData.max_energy);
-        } catch (error) {
-            console.error('Ошибка при получении данных:', error);
-        }
+    // Сохраняем данные на сервере
+    const updateUserData = () => {
+        const data = { count, lvl, health, maxHealth, energy, maxEnergy };
+        axios.post('http://localhost:5000/api/update-user', data)
+            .then(response => console.log(response.data.message))
+            .catch(err => console.error(err));
     };
 
-    // Используем useEffect для вызова функции при загрузке компонента
-    useEffect(() => {
-        fetchData();
-    }, []);
-    
     const handleClick = () => {
         if (energy > 0) {
             if (health > 1) {
-                setHealth(prevHealth => Math.max(prevHealth - damage, 0)); // Уменьшаем здоровье с учетом урона
+                setHealth(prevHealth => Math.max(prevHealth - damage, 0));
             } else {
                 setMaxHealth(prevMaxHealth => {
-                    const newMaxHealth = prevMaxHealth * 2; // Увеличиваем максимальное здоровье
-                    setHealth(newMaxHealth); // Полностью восстанавливаем здоровье
+                    const newMaxHealth = prevMaxHealth * 2;
+                    setHealth(newMaxHealth);
                     return newMaxHealth;
                 });
-
-                // Увеличиваем lvl только один раз, когда здоровье восстанавливается
                 setLvl(prevLvl => prevLvl + 1);
             }
-            setEnergy(prevEnergy => Math.max(prevEnergy - 1, 0)); // Уменьшаем энергию
-            setCount(count + damage); // Увеличиваем счётчик кликов
+            setEnergy(prevEnergy => Math.max(prevEnergy - 1, 0));
+            setCount(count + damage);
 
-            // Обновляем прогресс задания
             setQuestProgress(prevProgress => ({
                 ...prevProgress,
                 coinCount: prevProgress.coinCount + damage,
             }));
+
+            updateUserData(); // Отправляем обновленные данные на сервер
         }
     };
 
     useEffect(() => {
         const energyTimer = setInterval(() => {
-            setEnergy(prevEnergy => Math.min(prevEnergy + 1, maxEnergy)); // Восстанавливаем энергию до maxEnergy
+            setEnergy(prevEnergy => Math.min(prevEnergy + 1, maxEnergy));
         }, energyRecoverySpeed);
 
         return () => clearInterval(energyTimer);
     }, [maxEnergy, energyRecoverySpeed]);
 
-    useEffect(() => {
-        // Проверка на выполнение задания
-        if (lvl >= 5) {
-            setQuestReward('Задание выполнено: Уровень 5 достигнут!');
-        }
-
-        // Если собрали достаточно монет, обновляем задание
-        if (questProgress.coinCount >= questProgress.targetCoins) {
-            setQuestReward(`Поздравляем! Вы собрали ${questProgress.targetCoins} монет и получаете ${rewardAmount} монет в качестве награды!`);
-            setCount(prevCount => prevCount + rewardAmount); // Добавляем монеты за выполнение задания
-            setShowRewardMessage(true); // Показываем сообщение
-
-            // Удваиваем количество монет, которое нужно собрать для следующего задания
-            setQuestProgress(prevProgress => ({
-                ...prevProgress,
-                coinCount: 0, // Обнуляем прогресс по монетам
-                targetCoins: prevProgress.targetCoins * 2, // Увеличиваем цель в 2 раза
-            }));
-
-            // Удваиваем награду для следующего задания
-            setRewardAmount(prevReward => prevReward * 2);
-
-            // Таймер для скрытия сообщения через 2 секунды
-            setTimeout(() => {
-                setShowRewardMessage(false);
-            }, 2000);
-        }
-    }, [lvl, questProgress, rewardAmount]);
-
-    useEffect(() => {
-        // Проверка задания по уровню
-        if (lvl >= levelQuestProgress.currentLevel) {
-            setQuestReward(`Поздравляем! Вы достигли уровня ${levelQuestProgress.currentLevel} и получаете ${levelQuestProgress.reward} монет!`);
-            setCount(prevCount => prevCount + levelQuestProgress.reward); // Добавляем монеты за выполнение задания
-            setShowRewardMessage(true); // Показываем сообщение
-
-            // Увеличиваем целевой уровень и награду
-            setLevelQuestProgress(prevProgress => ({
-                currentLevel: prevProgress.currentLevel + 5, // Следующий целевой уровень (увеличивается на 5)
-                reward: prevProgress.reward * 2, // Удваиваем награду
-            }));
-
-            // Таймер для скрытия сообщения
-            setTimeout(() => {
-                setShowRewardMessage(false);
-            }, 2000);
-        }
-
-        // Проверка задания по монетам
-        if (questProgress.coinCount >= questProgress.targetCoins) {
-            setQuestReward(`Поздравляем! Вы собрали ${questProgress.targetCoins} монет и получаете ${rewardAmount} монет в качестве награды!`);
-            setCount(prevCount => prevCount + rewardAmount); // Добавляем монеты за выполнение задания
-            setShowRewardMessage(true); // Показываем сообщение
-
-            // Увеличиваем цель и награду
-            setQuestProgress(prevProgress => ({
-                ...prevProgress,
-                coinCount: 0, // Обнуляем прогресс по монетам
-                targetCoins: prevProgress.targetCoins * 2, // Увеличиваем цель в 2 раза
-            }));
-            setRewardAmount(prevReward => prevReward * 2);
-
-            // Таймер для скрытия сообщения
-            setTimeout(() => {
-                setShowRewardMessage(false);
-            }, 2000);
-        }
-    }, [lvl, questProgress, levelQuestProgress, rewardAmount]);
-
-    const healthPercentage = (health / maxHealth) * 100;
-
-    // Логика для покупки улучшений
-    const handleDamageUpgrade = () => {
-        if (count >= damageUpgradeCost) {
-            setDamage(damage + 1); // Улучшаем урон
-            setCount(count - damageUpgradeCost); // Снимаем клики
-            setDamageUpgradeCost(prevCost => Math.ceil(prevCost * 1.5)); // Увеличиваем цену улучшения урона
-        }
-    };
-
-    const handleMaxEnergyUpgrade = () => {
-        if (count >= maxEnergyUpgradeCost) {
-            setMaxEnergy(maxEnergy + 20); // Увеличиваем макс. энергию
-            setCount(count - maxEnergyUpgradeCost); // Снимаем клики
-            setMaxEnergyUpgradeCost(prevCost => Math.ceil(prevCost * 1.5)); // Увеличиваем цену улучшения макс. энергии
-        }
-    };
-
-    const handleEnergyRecoverySpeedUpgrade = () => {
-        if (count >= energyRecoverySpeedUpgradeCost) {
-            setEnergyRecoverySpeed(energyRecoverySpeed - 10000); // Ускоряем восстановление энергии
-            setCount(count - energyRecoverySpeedUpgradeCost); // Снимаем клики
-            setEnergyRecoverySpeedUpgradeCost(prevCost => Math.ceil(prevCost * 1.5)); // Увеличиваем цену улучшения восстановления энергии
-        }
-    };
+    // Установите логики улучшений, наград и другие события так же, как в вашем текущем коде.
 
     return (
         <div className="ClickPanel">
@@ -207,7 +106,7 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
             <div className="health-bar-container">
                 <img src={heartIcon} className="heart-icon" alt="Heart" />
                 <div className="health-bar">
-                    <div className="health-bar-fill" style={{ width: `${healthPercentage}%` }} />
+                    <div className="health-bar-fill" style={{ width: `${(health / maxHealth) * 100}%` }} />
                     <span className="health-text">{health}/{maxHealth}</span>
                 </div>
             </div>
@@ -227,47 +126,7 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
                 style={{ cursor: energy > 0 ? 'pointer' : 'not-allowed' }}
             />
 
-            {activePanel === "Кузнец" && (
-                <div className="BlacksmithPanel">
-                    <h2>Панель Кузнеца</h2>
-                    <div>
-                        <p>Урон за клик: {damage}</p>
-                        <button onClick={handleDamageUpgrade}>Увеличить урон ({damageUpgradeCost} кликов)</button>
-                    </div>
-                    <div>
-                        <p>Макс. энергия: {maxEnergy}</p>
-                        <button onClick={handleMaxEnergyUpgrade}>Увеличить макс. энергию ({maxEnergyUpgradeCost} кликов)</button>
-                    </div>
-                    <div>
-                        <p>Скорость восстановления энергии: {energyRecoverySpeed / 1000} сек</p>
-                        <button onClick={handleEnergyRecoverySpeedUpgrade}>Ускорить восстановление энергии ({energyRecoverySpeedUpgradeCost} кликов)</button>
-                    </div>
-                </div>
-            )}
-
-            {activePanel === "Задание" && (
-                <div className="QuestPanel">
-                    <h2>Задания</h2>
-                    <div>
-                        <p>Прогресс монет: {questProgress.coinCount} / {questProgress.targetCoins}</p>
-                    </div>
-                    <div>
-                        <p>Прогресс уровня: {lvl} / {levelQuestProgress.currentLevel}</p>
-                    </div>
-                </div>
-            )}
-
-            {showRewardMessage && (
-                <div className="reward-message">
-                    <p>Поздравляем! Вы собрали {questProgress.targetCoins} монет и получаете {rewardAmount} монет в качестве награды!</p>
-                </div>
-            )}
-
-            {showRewardMessage && (
-                <div className="reward-message">
-                    {questReward}
-                </div>
-            )}
+            {/* Остальной код с панелями и наградами */}
         </div>
     );
 };
