@@ -91,6 +91,7 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
             }, 2000);
         }
     }, [lvl, questProgress, rewardAmount]);
+
     useEffect(() => {
         // Проверка задания по уровню
         if (lvl >= levelQuestProgress.currentLevel) {
@@ -229,14 +230,13 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
                 <div className="reward-message">
                     <p>Поздравляем! Вы собрали {questProgress.targetCoins} монет и получаете {rewardAmount} монет в качестве награды!</p>
                 </div>
-
             )}
+
             {showRewardMessage && (
                 <div className="reward-message">
-                    {questReward && <p>{questReward}</p>}
+                    {questReward}
                 </div>
             )}
-
         </div>
     );
 };
