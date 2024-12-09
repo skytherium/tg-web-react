@@ -57,11 +57,14 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
 
     useEffect(() => {
         const energyTimer = setInterval(() => {
-            setEnergy(prevEnergy => Math.min(prevEnergy + 1, maxEnergy)); // Восстанавливаем энергию до maxEnergy
+            setEnergy(prevEnergy => {
+                const newEnergy = Math.min(prevEnergy + 1, maxEnergy); // Восстанавливаем энергию до maxEnergy
+                return newEnergy;
+            });
         }, energyRecoverySpeed);
 
-        return () => clearInterval(energyTimer);
-    }, [maxEnergy, energyRecoverySpeed]);
+        return () => clearInterval(energyTimer); // Очищаем таймер при размонтировании компонента
+    }, [energyRecoverySpeed, maxEnergy]); // Зависимости: обновление при изменении скорости восстановления и макс. энергии
 
     useEffect(() => {
         // Проверка на выполнение задания
