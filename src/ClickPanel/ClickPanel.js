@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './ClickPanel.css';
-import axios from 'axios'; // Импортируем axios для HTTP запросов
 
 import forest from './img/forest.jpg';
 import monster from './img/monster.png';
@@ -18,20 +18,6 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
     const [maxEnergyUpgradeCost, setMaxEnergyUpgradeCost] = useState(15);
     const [energyRecoverySpeedUpgradeCost, setEnergyRecoverySpeedUpgradeCost] = useState(20);
 
-    const [questProgress, setQuestProgress] = useState({
-        level: 0,
-        coinCount: 0,
-        targetCoins: 100,
-    });
-    const [levelQuestProgress, setLevelQuestProgress] = useState({
-        currentLevel: 5,
-        reward: 50,
-    });
-
-    const [questReward, setQuestReward] = useState(null);
-    const [rewardAmount, setRewardAmount] = useState(100);
-    const [showRewardMessage, setShowRewardMessage] = useState(false);
-
     // Получаем данные с сервера
     useEffect(() => {
         axios.get('http://localhost:5000/api/user-data')
@@ -45,7 +31,7 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
                 setLvl(data.level);
             })
             .catch(err => console.error(err));
-    }, []);
+    }, [setMaxEnergy]); // Добавлен setMaxEnergy в зависимости
 
     // Сохраняем данные на сервере
     const updateUserData = () => {
@@ -70,11 +56,6 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
             setEnergy(prevEnergy => Math.max(prevEnergy - 1, 0));
             setCount(count + damage);
 
-            setQuestProgress(prevProgress => ({
-                ...prevProgress,
-                coinCount: prevProgress.coinCount + damage,
-            }));
-
             updateUserData(); // Отправляем обновленные данные на сервер
         }
     };
@@ -87,7 +68,36 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
         return () => clearInterval(energyTimer);
     }, [maxEnergy, energyRecoverySpeed]);
 
-    // Установите логики улучшений, наград и другие события так же, как в вашем текущем коде.
+    // Логика для покупки улучшений
+    const handleDamageUpgrade = () => {
+        if (count >= damageUpgradeCost) {
+            setDamage(damage + 1);
+            setCount(count - damageUpgradeCost);
+            setDamageUpgradeCost(prevCost => Math.ceil(prevCost * 1.5));
+            updateUserData();
+        }
+    };
+
+    const handleMaxEnergyUpgrade = () => {
+        if (count >= maxEnergyUpgradeCost) {
+            setMaxEnergy(maxEnergy + 20);
+            setCount(count - maxEnergyUpgradeCost);
+            setMaxEnergyUpgradeCost(prevCost => Math.ceil(prevCost * 1.5));
+            updateUserData();
+        }
+    };
+
+    const handleEnergyRecoverySpeedUpgrade = () => {
+        if (count >= energyRecoverySpeedUpgradeCost) {
+            setEnergyRecoverySpeed(energyRecoverySpeed - 10000);
+            setCount(count - energyRecoverySpeedUpgradeCost);
+            setEnergyRecoverySpeedUpgradeCost(prevCost => Math.ceil(prevCost * 1.5));
+            updateUserData();
+        }
+    };
+
+    // Процент здоровья
+    const healthPercentage = (health / maxHealth) * 100;
 
     return (
         <div className="ClickPanel">
@@ -106,7 +116,7 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
             <div className="health-bar-container">
                 <img src={heartIcon} className="heart-icon" alt="Heart" />
                 <div className="health-bar">
-                    <div className="health-bar-fill" style={{ width: `${(health / maxHealth) * 100}%` }} />
+                    <div className="health-bar-fill" style={{ width: `${healthPercentage}%` }} />
                     <span className="health-text">{health}/{maxHealth}</span>
                 </div>
             </div>
@@ -126,7 +136,32 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
                 style={{ cursor: energy > 0 ? 'pointer' : 'not-allowed' }}
             />
 
-            {/* Остальной код с панелями и наградами */}
+            {activePanel === "Кузнец" && (
+                <div className="BlacksmithPanel">
+                    <h2>Панель Кузнеца</h2>
+                    <div>
+                        <p>Урон за клик: {damage}</p>
+                        <button onClick={handleDamageUpgrade}>Увеличить урон ({damageUpgradeCost} кликов)</button>
+                    </div>
+                    <div>
+                        <p>Макс. энергия: {maxEnergy}</p>
+                        <button onClick={handleMaxEnergyUpgrade}>Увеличить макс. энергию ({maxEnergyUpgradeCost} кликов)</button>
+                    </div>
+                    <div>
+                        <p>Скорость восстановления энергии: {energyRecoverySpeed / 1000} сек</p>
+                        <button onClick={handleEnergyRecoverySpeedUpgrade}>Ускорить восстановление энергии ({energyRecoverySpeedUpgradeCost} кликов)</button>
+                    </div>
+                </div>
+            )}
+
+            {activePanel === "Задание" && (
+                <div className="QuestPanel">
+                    <h2>Задания</h2>
+                    <div>
+                        <p>Прогресс монет: {count} / 100</p>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
