@@ -5,6 +5,10 @@ import monster from './img/monster.png'; // Изображение монстр�
 import heartIcon from './img/health.png'; // Изображение сердца
 import coin from './img/gold.png'; // Изображение монетки
 
+
+
+
+
 const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxEnergy, setEnergyRecoverySpeed, activePanel }) => {
     const [count, setCount] = useState(0); // Счётчик кликов (монеты)
     const [health, setHealth] = useState(20); // Текущее здоровье
@@ -30,6 +34,33 @@ const ClickPanel = ({ damage, maxEnergy, energyRecoverySpeed, setDamage, setMaxE
     const [rewardAmount, setRewardAmount] = useState(100); // Начальная награда
     const [showRewardMessage, setShowRewardMessage] = useState(false); // Для отображения поздравления
 
+
+
+
+    const fetchData = async () => {
+        const telegramId = 123456789; // Здесь используйте реальный ID пользователя
+        try {
+            const response = await fetch(`/api/user/${telegramId}`);
+            if (!response.ok) {
+                throw new Error('Ошибка при получении данных');
+            }
+            const userData = await response.json();
+            setCount(userData.coin_count);
+            setLvl(userData.level);
+            setHealth(userData.health);
+            setMaxHealth(userData.max_health);
+            setEnergy(userData.energy);
+            setMaxEnergy(userData.max_energy);
+        } catch (error) {
+            console.error('Ошибка при получении данных:', error);
+        }
+    };
+
+    // Используем useEffect для вызова функции при загрузке компонента
+    useEffect(() => {
+        fetchData();
+    }, []);
+    
     const handleClick = () => {
         if (energy > 0) {
             if (health > 1) {
